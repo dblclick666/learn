@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.shiro.dao.RoleDAO">
+
+    <select id="getRoleList" resultType="Role">
+        select ID,NAME from ROLE
+    </select>
+
+    <select id="getUserRoleIds" parameterType="int" resultType="int">
+        select ROLE_ID from USER_ROLE
+        where USER_ID=#{userId}
+    </select>
+
+    <delete id="deleteUserRole" parameterType="int">
+        delete from USER_ROLE where USER_ID=#{userId}
+    </delete>
+
+    <insert id="addUserRole" parameterType="map">
+        insert into USER_ROLE (USER_ID,ROLE_ID) values (#{userId},#{roleId})
+    </insert>
+</mapper>
+    

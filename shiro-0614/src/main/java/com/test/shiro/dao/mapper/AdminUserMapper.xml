@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.shiro.dao.AdminUserDAO">
+
+    <resultMap id="userMap" type="AdminUser">
+        <id property="id" column="ID"/>
+        <result column="PASSWORD" property="password"/>
+        <result column="USER_NAME" property="userName"/>
+    </resultMap>
+
+    <select id="getUserByName" parameterType="String" resultMap="userMap">
+        select ID,PASSWORD,USER_NAME
+        from ADMIN_USER
+        where USER_NAME=#{userName}
+    </select>
+</mapper>
+    

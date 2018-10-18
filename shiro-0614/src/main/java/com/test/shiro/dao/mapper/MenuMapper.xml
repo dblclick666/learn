@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.test.shiro.dao.MenuDAO">
+
+    <resultMap id="menuMap" type="Menu">
+        <id property="id" column="ID"/>
+        <result property="name" column="NAME"/>
+        <result property="parentId" column="PARENT_ID"/>
+        <result property="url" column="URL"/>
+    </resultMap>
+
+    <select id="getUserMenu" resultMap="menuMap" parameterType="int">
+        select m.*
+        from user_role ur
+        inner join role_menu rm on ur.ROLE_ID=rm.ROLE_ID
+        inner join menu m on rm.MENU_ID=m.id
+        where ur.user_id=#{userId}
+        group by m.id
+    </select>
+
+    <select id="getMenuRoles" resultType="int" parameterType="int">
+        select ROLE_ID
+        from ROLE_MENU
+        where MENU_ID=#{menuId}
+    </select>
+
+    <select id="getMenuList" resultMap="menuMap">
+        select ID,URL,NAME from MENU
+    </select>
+
+    <delete id="deleteRoleMenu" parameterType="int">
+        delete from ROLE_MENU where ROLE_ID=#{roleId}
+    </delete>
+
+    <insert id="addRoleMenu" parameterType="map">
+        insert into ROLE_MENU(ROLE_ID,MENU_ID) values(#{roleId},#{menuId})
+    </insert>
+</mapper>
+    

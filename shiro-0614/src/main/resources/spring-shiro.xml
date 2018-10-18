@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       ">
+    <bean id="cacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+    <bean  id="myShiroRealm" class="com.test.shiro.shiro.MyShiroRealm">
+
+    </bean>
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="realms" ref="myShiroRealm"/>
+        <property name="cacheManager" ref="cacheManager" />
+    </bean>
+
+    <!--Shiro过滤器-->
+    <bean id="shiroFilter" class="com.test.shiro.shiro.MyShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/gologin.html"/>
+        <!--验证失败的跳转地址-->
+        <property name="unauthorizedUrl" value="/auth_error.html"/>
+        <property name="filterChainDefinitions">
+            <value>
+                /gologin.html = anon
+                /login.html = anon
+            </value>
+        </property>
+        <property name="filters">
+            <map>
+                <entry key="roles">
+                    <bean class="com.test.shiro.shiro.MyShiroFilter"/>
+                </entry>
+            </map>
+        </property>
+
+    </bean>
+
+</beans>
